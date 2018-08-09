@@ -1,0 +1,19 @@
+﻿<Window x:Class="DataMapping.TableDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataMapping"
+        mc:Ignorable="d"
+        Title="TableDataWindow" Height="700" Width="1100" Background="LightSlateGray">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Table View" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+        <DataGrid Grid.Row="1" Margin="10" ItemsSource="{Binding TableData}" Grid.Column="1"/>
+        
+    </Grid>
+</Window>

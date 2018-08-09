@@ -1,0 +1,66 @@
+﻿<Window x:Class="DataMapping.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataMapping"
+        xmlns:local1="clr-namespace:DataMapping.ValueConverters"
+        mc:Ignorable="d"
+        Title="Data Mapping" Height="700" Width="1100" Background="LightSlateGray">
+
+    <Window.Resources>
+        <local1:PercentageGreenRowConverter  x:Key="percentageGreenRowConverter"></local1:PercentageGreenRowConverter>
+        <local1:PercentageRedRowConverter  x:Key="percentageRedRowConverter"></local1:PercentageRedRowConverter>
+        <local1:PercentageYellowRowConverter  x:Key="percentageYellowRowConverter"></local1:PercentageYellowRowConverter>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="0.6*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="9*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Data Cleaning" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"></Label>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <Label Content="File:" FontSize="15" Margin="10, 0, 0, 0" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding FilePath}" Margin="10,0,0,0" FontWeight="Bold" Width="600" FontSize="15" VerticalContentAlignment="Center"></Label>
+            <Label Content="Table:" FontSize="15" Margin="10, 0, 0, 0" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding TableName}" Margin="10,0,0,0" FontWeight="Bold" Width="300" FontSize="15" VerticalContentAlignment="Center"></Label>
+        </StackPanel>
+
+        <DataGrid Name="GridEmployees" Grid.Row="2" Margin="10" ItemsSource="{Binding ComparisonTable}" Grid.Column="1">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PercentageMatching, Converter={StaticResource percentageRedRowConverter}}" Value="true">
+                            <Setter Property="Background" Value="#FF6F6F"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PercentageMatching, Converter={StaticResource percentageYellowRowConverter}}" Value="true">
+                            <Setter Property="Background" Value="#FFFF64"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PercentageMatching, Converter={StaticResource percentageGreenRowConverter}}" Value="true">
+                            <Setter Property="Background" Value="#79FF7A"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Top" Orientation="Vertical" Margin="0, 5, 0, 0">
+            <Button Content="Load Table" FontSize="15" Margin="5" Padding="5" Click="Button_LoadTable_Click"></Button>
+            <Button Content="Compare" FontSize="15" Margin="5" Padding="5" Click="BtnCompare_Click"></Button>
+            <Button Content="Table Data" FontSize="15" Margin="5" Padding="5" Click="Button_TableData_Click"></Button>
+            <Button Content="Set Delete" FontSize="15" Margin="5" Padding="5" Click="Button_SetDelete_Click"></Button>
+            <Button Content="Clean - Save" FontSize="15" Margin="5" Padding="5" Click="Button_CleanSave_Click"></Button>
+        </StackPanel>
+
+        <Label Grid.Row="3" Grid.ColumnSpan="2" Content="{Binding ErrorMessage}" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"></Label>
+    </Grid>
+</Window>
